@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  gateway:
+    image: ${REGISTRY}/docker-gateway:${IMAGE_TAG}
+    restart: always
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - frontend
+      - api
+
+  frontend:
+    image: ${REGISTRY}/docker-frontend:${IMAGE_TAG}
+    restart: always
+
+  api:
+    image: ${REGISTRY}/docker-api:${IMAGE_TAG}
+    restart: always
+    depends_on:
+      - api-php-fpm
+
+  api-php-fpm:
+    image: ${REGISTRY}/docker-api-php-fpm:${IMAGE_TAG}
+    restart: always
+  

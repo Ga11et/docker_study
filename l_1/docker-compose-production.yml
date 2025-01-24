@@ -1,0 +1,9 @@
+services:
+  nginx:
+    image: site-nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - php-fpm
+  php-fpm:
+    image: site-php-fpm
