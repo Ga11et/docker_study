@@ -1,0 +1,11 @@
+---
+- name: Check if certificate already exist
+  stat:
+    path: /etc/letsencrypt/live/{{ item }}/cert.pem
+  register: letsencrypt_certs
+  with_items: "{{ certbot_hosts }}"
+
+- name: Generate new certbot certificate
+  shell: "certbot certonly --noninteractive --agree-tos --email {{ certbot_email }} -d {{ item.item }}"
+  with_items: "{{ letsencrypt_certs.results }}"
+  when: not item.stat.exists

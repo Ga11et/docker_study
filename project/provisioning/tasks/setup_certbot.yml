@@ -1,0 +1,31 @@
+---
+- name: Update apt packages
+  yum:
+    update_cache: yes
+
+- name: Install dependencies
+  dnf:
+    name:
+      - epel-release
+    state: present
+    update_cache: yes
+
+- name: Install Certbot
+  dnf:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+    update_cache: yes
+
+- name: Copy Certbot configuration
+  copy:
+    src: files/cli.ini
+    dest: /etc/letsencrypt/cli.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Remove useless dependencies
+  dnf:
+    autoremove: yes

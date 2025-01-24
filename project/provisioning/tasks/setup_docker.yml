@@ -1,0 +1,43 @@
+---
+- name: Update apt packages
+  yum:
+    update_cache: yes
+- name: Install dependencies
+  dnf:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - dnf-plugins-core
+    # Значит, что пакеты должны быть свежими
+    state: present
+    # Обновляем кеш
+    update_cache: yes
+- name: Add Docker GPG key
+  rpm_key:
+    key: https://download.docker.com/linux/centos/gpg
+    state: present
+- name: Add Docker repository
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: "0644"
+- name: Install Docker
+  dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: yes
+- name: Remove useless dependencies
+  dnf:
+    autoremove: yes
+- name: Set periodic docker prune
+  cron:
+    name: docker-prune
+    minute: 0
+    hour: 1
+    job: "docker system prune --all --force"

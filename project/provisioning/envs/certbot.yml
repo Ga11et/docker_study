@@ -1,0 +1,5 @@
+certbot_email: sivkov1998@yandex.ru
+certbot_hosts:
+  - docker-api.ga1eta-domain.ru
+  - docker-front.ga1eta-domain.ru
+  - ga1eta-domain.ru
