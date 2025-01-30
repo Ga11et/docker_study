@@ -1,6 +1,6 @@
 services:
   gateway:
-    build: 
+    build:
       context: gateway/docker/development/nginx
     ports:
       - "8080:8080"
@@ -28,4 +28,9 @@ services:
       context: api/docker/development/php-fpm
     volumes:
       - ./api:/app:ro
-  
+
+  api-php-cli:
+    build:
+      context: api/docker/development/php-cli
+    volumes:
+      - ./api:/app:ro

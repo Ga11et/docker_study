@@ -24,4 +24,7 @@ services:
   api-php-fpm:
     image: ${REGISTRY}/docker-api-php-fpm:${IMAGE_TAG}
     restart: always
-  
+
+  api-php-cli:
+    image: ${REGISTRY}/docker-api-php-cli:${IMAGE_TAG}
+    restart: always
