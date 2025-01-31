@@ -1,0 +1,29 @@
+{
+  "name": "fyodor/project",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "fyodor"
+    }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "process-timeout": 0,
+    "sort-packages": true
+  },
+  "require": {
+    "php": "^7.4",
+    "php-di/php-di": "^5.4",
+    "slim/psr7": "^1.6",
+    "slim/slim": "^4.14"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}

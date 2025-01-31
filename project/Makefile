@@ -1,4 +1,6 @@
-init: docker-down-clear docker-pull docker-build docker-up
+include .env
+
+init: docker-down-clear docker-pull docker-build docker-up api-init
 up: docker-up
 down: docker-down
 restart: down up 
@@ -18,6 +20,11 @@ docker-pull:
 docker-build:
 	docker compose build
 
+api-init: api-composer-install
+
+api-composer-install:
+	docker compose run --rm api-php-cli composer install
+
 build: build-gateway build-frontend build-api
 
 build-gateway:
@@ -29,6 +36,7 @@ build-frontend:
 build-api:
 	docker --log-level=debug build --pull --file=api/docker/production/nginx/Dockerfile --tag=${REGISTRY}/docker-api:${IMAGE_TAG} api
 	docker --log-level=debug build --pull --file=api/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/docker-api-php-fpm:${IMAGE_TAG} api
+	docker --log-level=debug build --pull --file=api/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/docker-api-php-cli:${IMAGE_TAG} api
 
 try-build:
 	REGISTRY=ghcr.io/ga11et IMAGE_TAG=main-1 make build
@@ -44,6 +52,7 @@ push-frontend:
 push-api:
 	docker push ${REGISTRY}/docker-api:${IMAGE_TAG}
 	docker push ${REGISTRY}/docker-api-php-fpm:${IMAGE_TAG}
+	docker push ${REGISTRY}/docker-api-php-cli:${IMAGE_TAG}
 
 deploy:
 	ssh ${HOST} 'rm -rf docker_${BUILD_NUMBER}'
