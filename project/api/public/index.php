@@ -2,23 +2,16 @@
 
 declare(strict_types=1);
 
-use App\Http;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$builder = new DI\ContainerBuilder();
-$builder->addDefinitions([
-    'config' => [
-        'debug' => (bool) getenv('APP_DEBUG'),
-    ]
-]);
-$container = $builder->build();
+/**  @var ContainerInterface $container */
+$container = require __DIR__ . '/../config/container.php';
 
 $app = AppFactory::createFromContainer($container);
 
-$app->addErrorMiddleware($container->get('config')['debug'], true, true);
-
-$app->get('/', Http\Action\HomeAction::class);
+(require __DIR__ . '/../config/middlewares.php')($app, $container);
+(require __DIR__ . '/../config/routes.php')($app);
 
 $app->run();
