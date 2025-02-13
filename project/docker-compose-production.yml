@@ -26,9 +26,11 @@ services:
     restart: always
     environment:
       APP_DEBUG: 0
+      APP_ENV: prod
 
   api-php-cli:
     image: ${REGISTRY}/docker-api-php-cli:${IMAGE_TAG}
     restart: always
     environment:
       APP_DEBUG: 0
+      APP_ENV: prod
