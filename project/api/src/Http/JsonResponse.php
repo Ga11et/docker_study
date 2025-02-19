@@ -10,12 +10,12 @@ use Slim\Psr7\Response;
 
 class JsonResponse extends Response
 {
-  public function __construct($data, int $status = 200, array $headers = [])
-  {
-    parent::__construct(
-      $status,
-      new Headers($headers),
-      (new StreamFactory())->createStream(json_encode($data, JSON_THROW_ON_ERROR))
-    );
-  }
+    public function __construct($data, int $status = 200, array $headers = [])
+    {
+        parent::__construct(
+            $status,
+            new Headers($headers),
+            (new StreamFactory())->createStream(json_encode($data, JSON_THROW_ON_ERROR))
+        );
+    }
 }

@@ -12,8 +12,8 @@ use stdClass;
 
 class HomeAction implements RequestHandlerInterface
 {
-  public function handle(ServerRequestInterface $request): ResponseInterface
-  {
-    return new JsonResponse(new stdClass());
-  }
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        return new JsonResponse(new stdClass());
+    }
 }
