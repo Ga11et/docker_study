@@ -45,6 +45,7 @@ try-build:
 api-lint:
 	docker compose run --rm api-php-cli composer lint
 	docker compose run --rm api-php-cli composer cs-check
+	docker compose run --rm api-php-cli composer psalm
 
 push: push-gateway push-frontend push-api
 

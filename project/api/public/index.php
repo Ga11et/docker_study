@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-/**  @var ContainerInterface $container */
+/** @var Psr\Container\ContainerInterface $container */
 $container = require __DIR__ . '/../config/container.php';
 
-/**  @var App $app */
+/** @var Slim\App $app */
 $app = (require __DIR__ . '/../config/app.php')($container);
 $app->run();
