@@ -1,6 +1,7 @@
 FROM php:7.4-fpm-alpine
 
 RUN apk add unzip
+RUN docker-php-ext-install opcache
 
 # $PHP_INI_DIR = /usr/local/etc/php
 # Внутри контейнера php:7.4-fpm-alpine лежат файлы php.ini-development и php.ini-production
@@ -8,6 +9,7 @@ RUN apk add unzip
 RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 
 COPY ./docker/production/php-cli/conf.d $PHP_INI_DIR/conf.d
+COPY ./docker/production/php/conf.d $PHP_INI_DIR/conf.d
 
 # Разрешаем composer исполнять компанды от root
 ENV COMPOSER_ALLOW_SUPERUSER=1
