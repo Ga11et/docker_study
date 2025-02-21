@@ -19,55 +19,40 @@ class JsonResponseTest extends TestCase
     $this->assertEquals(201, $response->getStatusCode());
   }
 
-  public function testNull(): void
+  /**
+   * @dataProvider getCases
+   * @param mixed $source
+   * @param mixed $expect
+   */
+  public function testResponse($source, $expect): void
   {
-    $response = new JsonResponse(null);
+    $response = new JsonResponse($source);
 
-    $this->assertEquals('null', $response->getBody()->getContents());
+    $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
+    $this->assertEquals($expect, $response->getBody()->getContents());
     $this->assertEquals(200, $response->getStatusCode());
   }
 
-  public function testInt(): void
-  {
-    $response = new JsonResponse(12);
-
-    $this->assertEquals('12', $response->getBody()->getContents());
-    $this->assertEquals(200, $response->getStatusCode());
-  }
-
-  public function testString(): void
-  {
-    $response = new JsonResponse('12');
-
-    $this->assertEquals('"12"', $response->getBody()->getContents());
-    $this->assertEquals(200, $response->getStatusCode());
-  }
-
-  public function testObject(): void
+  public function getCases(): array
   {
     $object = new stdClass();
     $object->property = 'value';
     $object->int = 12;
     $object->none = null;
 
-
-    $response = new JsonResponse($object);
-
-    $this->assertEquals('{"property":"value","int":12,"none":null}', $response->getBody()->getContents());
-    $this->assertEquals(200, $response->getStatusCode());
-  }
-
-  public function testArray(): void
-  {
     $array = [
       'property' => 'value',
       'int' => 12,
       'none' => null,
     ];
 
-    $response = new JsonResponse($array);
-
-    $this->assertEquals('{"property":"value","int":12,"none":null}', $response->getBody()->getContents());
-    $this->assertEquals(200, $response->getStatusCode());
+    return [
+      'int' => [12, '12'],
+      'none' => [null, 'null'],
+      'string' => ['12', '"12"'],
+      'empty' => ['', '""'],
+      'object' => [$object, '{"property":"value","int":12,"none":null}'],
+      'array' => [$array, '{"property":"value","int":12,"none":null}'],
+    ];
   }
 }
