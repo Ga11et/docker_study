@@ -5,6 +5,7 @@ up: docker-up
 down: docker-down
 restart: down up 
 lint: api-lint
+test: api-test
 
 docker-up:
 	docker compose up -d
@@ -46,6 +47,9 @@ api-lint:
 	docker compose run --rm api-php-cli composer lint
 	docker compose run --rm api-php-cli composer cs-check
 	docker compose run --rm api-php-cli composer psalm
+
+api-test:
+	docker compose run --rm api-php-cli composer test
 
 push: push-gateway push-frontend push-api
 
