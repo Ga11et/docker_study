@@ -10,6 +10,7 @@
         <directory name="config" />
         <directory name="public" />
         <directory name="src" />
+        <directory name="test" />
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>
